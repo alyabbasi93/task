@@ -20,7 +20,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedTabIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  bool _isVisible = true;
   Widget drawable() {
     return new Drawer(
       child: new ListView(
@@ -53,6 +53,7 @@ class _HomeState extends State<Home> {
             onTap: () {
               setState(() {
                 _changeIndex(1);
+                _isVisible = false;
               });
               Navigator.pop(context);
             },
@@ -94,6 +95,8 @@ class _HomeState extends State<Home> {
     }
   }
 
+  GlobalKey<EnsureVisibleState> ensureVisibleGlobalKey =
+      GlobalKey<EnsureVisibleState>();
   var feature1OverflowMode = OverflowMode.clipContent;
   var feature1EnablePulsingAnimation = true;
 
@@ -124,167 +127,173 @@ class _HomeState extends State<Home> {
     List _pages = [Fragment1(), Fragment2()];
 
     return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-            icon: icon1,
-            onPressed: () => _scaffoldKey.currentState
-                .openDrawer()), //_scaffoldKey.currentState.openDrawer()),
+        key: _scaffoldKey,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+              icon: icon1,
+              onPressed: () => _scaffoldKey.currentState
+                  .openDrawer()), //_scaffoldKey.currentState.openDrawer()),
 
-        title: Center(
-            child: Padding(
-          padding: EdgeInsets.only(left: 60),
-          child: Text(
-            'BEEDYO',
-            style: GoogleFonts.russoOne(color: Colors.red, fontSize: 20),
-          ),
-        )),
-        actions: <Widget>[
-          DescribedFeatureOverlay(
-            featureId: feature2,
-            tapTarget: icon2,
-            backgroundColor: Colors.red,
-            title: const Text('Search'),
-            description: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const Text(
-                    'Search for any specific Pitch.Search can be perfomed using:'),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      FontAwesome.dot_circle_o,
-                      color: Colors.white,
-                    ),
-                    Text(' Pitch Title'),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      FontAwesome.dot_circle_o,
-                      color: Colors.white,
-                    ),
-                    Text(' Creator Name'),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      FontAwesome.dot_circle_o,
-                      color: Colors.white,
-                    ),
-                    Text(' Location'),
-                  ],
-                ),
-              ],
+          title: Center(
+              child: Padding(
+            padding: EdgeInsets.only(left: 60),
+            child: Text(
+              'BEEDYO',
+              style: GoogleFonts.russoOne(color: Colors.red, fontSize: 20),
             ),
-            child: IconButton(
-              icon: icon2,
-              onPressed: () {},
+          )),
+          actions: <Widget>[
+            DescribedFeatureOverlay(
+              featureId: feature2,
+              tapTarget: icon2,
+              backgroundColor: Colors.red,
+              title: const Text('Search'),
+              description: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text(
+                      'Search for any specific Pitch.Search can be perfomed using:'),
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        FontAwesome.dot_circle_o,
+                        color: Colors.white,
+                      ),
+                      Text(' Pitch Title'),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        FontAwesome.dot_circle_o,
+                        color: Colors.white,
+                      ),
+                      Text(' Creator Name'),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        FontAwesome.dot_circle_o,
+                        color: Colors.white,
+                      ),
+                      Text(' Location'),
+                    ],
+                  ),
+                ],
+              ),
+              child: IconButton(
+                icon: icon2,
+                onPressed: () {},
+              ),
             ),
-          ),
-          DescribedFeatureOverlay(
-            featureId: feature3,
-            tapTarget: icon3,
-            backgroundColor: Colors.red,
-            title: const Text('Filters'),
-            description: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const Text(
-                    'Use the option to filter Pitches.Pitches can be filtered based on:'),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      FontAwesome.dot_circle_o,
-                      color: Colors.white,
-                    ),
-                    const Text(' Category'),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      FontAwesome.dot_circle_o,
-                      color: Colors.white,
-                    ),
-                    const Text(' Rating'),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      FontAwesome.dot_circle_o,
-                      color: Colors.white,
-                    ),
-                    const Text(' price'),
-                  ],
-                ),
-              ],
+            DescribedFeatureOverlay(
+              featureId: feature3,
+              tapTarget: icon3,
+              backgroundColor: Colors.red,
+              title: const Text('Filters'),
+              description: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text(
+                      'Use the option to filter Pitches.Pitches can be filtered based on:'),
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        FontAwesome.dot_circle_o,
+                        color: Colors.white,
+                      ),
+                      const Text(' Category'),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        FontAwesome.dot_circle_o,
+                        color: Colors.white,
+                      ),
+                      const Text(' Rating'),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        FontAwesome.dot_circle_o,
+                        color: Colors.white,
+                      ),
+                      const Text(' price'),
+                    ],
+                  ),
+                ],
+              ),
+              child: IconButton(
+                icon: icon3,
+                onPressed: () {},
+              ),
             ),
-            child: IconButton(
-              icon: icon3,
-              onPressed: () {},
+            DescribedFeatureOverlay(
+              featureId: feature4,
+              tapTarget: icon4,
+              backgroundColor: Colors.red,
+              title: const Text('Switch View'),
+              description: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text('Tap here to switch between'
+                      'MapView'
+                      ' And List view to view Pitches close to you'),
+                ],
+              ),
+              child: IconButton(
+                icon: icon4,
+                onPressed: () {},
+              ),
             ),
-          ),
-          DescribedFeatureOverlay(
-            featureId: feature4,
-            tapTarget: icon4,
-            backgroundColor: Colors.red,
-            title: const Text('Switch View'),
-            description: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const Text('Tap here to switch between'
-                    'MapView'
-                    ' And List view to view Pitches close to you'),
-              ],
-            ),
-            child: IconButton(
-              icon: icon4,
-              onPressed: () {},
-            ),
-          ),
-        ],
-      ),
-      drawer: drawable(),
-      body: Container(child: _pages[_selectedTabIndex]),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: StatefulBuilder(
-        builder:
-            (BuildContext context, void Function(void Function()) setState) =>
-                DescribedFeatureOverlay(
-          featureId: feature5,
-          tapTarget: icon5,
-          backgroundColor: Colors.red,
-          overflowMode: OverflowMode.extendBackground,
-          title: const Text('Map Pins'),
-          description: Column(children: <Widget>[
-            const Text(
-                'Each of these pins mark the location of a Pitch near you.Tapping on them will show you some basic information'),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: <Widget>[
-                const Text(
-                  'Pitch',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.start,
-                ),
-              ],
-            ),
-            const Text(
-                'A pitch can be a meet up a product launch,a knowledge sharing session.'),
-          ]),
-          child: FloatingActionButton(
-            onPressed: () {},
-            child: icon5,
-          ),
+          ],
         ),
-      ),
-    );
+        drawer: drawable(),
+        body: Container(child: _pages[_selectedTabIndex]),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: StatefulBuilder(
+          builder:
+              (BuildContext context, void Function(void Function()) setState) =>
+                  DescribedFeatureOverlay(
+            featureId: feature5,
+            tapTarget: icon5,
+            backgroundColor: Colors.red,
+            overflowMode: OverflowMode.extendBackground,
+            title: const Text('Map Pins'),
+            description: Column(children: <Widget>[
+              const Text(
+                  'Each of these pins mark the location of a Pitch near you.Tapping on them will show you some basic information'),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: <Widget>[
+                  const Text(
+                    'Pitch',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.start,
+                  ),
+                ],
+              ),
+              const Text(
+                  'A pitch can be a meet up a product launch,a knowledge sharing session.'),
+            ]),
+            child: new Visibility(
+              visible: _isVisible,
+              child: FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    _isVisible = false;
+                  });
+                },
+                child: icon5,
+              ),
+            ),
+          ),
+        ));
   }
 }

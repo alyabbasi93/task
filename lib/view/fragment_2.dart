@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task/model/AlbumModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:task/view/detailview.dart';
 
 class Fragment2 extends StatefulWidget {
   Fragment2({Key key}) : super(key: key);
@@ -62,79 +63,92 @@ class _Fragment2State extends State<Fragment2> {
                   itemCount: _users.length,
                   itemBuilder: (BuildContext context, int index) {
                     AlbumModel Album = _users[index];
-                    return Container(
-                        margin: EdgeInsets.only(top: 5, left: 5, right: 5),
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: NetworkImage(Album.url),
-                                fit: BoxFit.cover)),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
+                    return new GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Detailview(
+                                      image: Album.thumbnailUrl,
+                                      title: Album.title,
+                                      url: Album.url,
+                                    )),
+                          );
+                        },
+                        child: Container(
+                            margin: EdgeInsets.only(top: 5, left: 5, right: 5),
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(Album.url),
+                                    fit: BoxFit.cover)),
+                            child: Column(
                               children: <Widget>[
-                                Expanded(
-                                  child: Container(
-                                    child: CachedNetworkImage(
-                                      imageUrl: Album.thumbnailUrl,
-                                      height: 50,
-                                      width: 50,
-                                      imageBuilder: (context, imageProvider) =>
-                                          Container(
-                                        margin: EdgeInsets.only(top: 10),
-                                        width: 80,
-                                        height: 80,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border:
-                                              Border.all(color: Colors.white),
-                                          image: DecorationImage(
-                                              image: imageProvider,
-                                              fit: BoxFit.cover),
-                                        ),
-                                      ),
-                                      placeholder: (context, url) =>
-                                          CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(),
-                                ),
-                                Expanded(
-                                  child: Container(),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 100,
-                            ),
-                            Container(
-                              height: 89,
-                              child: Card(
-                                child: Row(
+                                Row(
                                   children: <Widget>[
                                     Expanded(
                                       child: Container(
-                                        padding: EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          Album.title,
-                                          style: GoogleFonts.raleway(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
+                                        child: CachedNetworkImage(
+                                          imageUrl: Album.thumbnailUrl,
+                                          height: 50,
+                                          width: 50,
+                                          imageBuilder:
+                                              (context, imageProvider) =>
+                                                  Container(
+                                            margin: EdgeInsets.only(top: 10),
+                                            width: 80,
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  color: Colors.white),
+                                              image: DecorationImage(
+                                                  image: imageProvider,
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          ),
+                                          placeholder: (context, url) =>
+                                              CircularProgressIndicator(),
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.error),
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      width: 100,
+                                    Expanded(
+                                      child: Container(),
                                     ),
+                                    Expanded(
+                                      child: Container(),
+                                    )
                                   ],
                                 ),
-                              ),
-                            )
-                          ],
-                        ));
+                                SizedBox(
+                                  height: 100,
+                                ),
+                                Container(
+                                  height: 89,
+                                  child: Card(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Container(
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: Text(
+                                              Album.title,
+                                              style: GoogleFonts.raleway(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 100,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )));
                   }),
             ),
     );
